@@ -1,6 +1,7 @@
 ﻿using System.Web.Http;
 using TicTacToeBL.Games;
 using TicTacToeEntity.Games;
+using TicTacToeEntity.Validators;
 using TicTacToeInterfaces.Games;
 
 namespace TicTacToe_1.Controllers
@@ -19,6 +20,10 @@ namespace TicTacToe_1.Controllers
         [Route("api/games/{gameId}")]
         public IHttpActionResult Get(int gameId)
         {
+            if (gameId <= 0)
+            {
+                return BadRequest("GameId must be greater then 0.");
+            }
             var gamesInfo = _gamesBL.GetGamesInfo(gameId);
             return Ok(gamesInfo);
         }
@@ -33,6 +38,10 @@ namespace TicTacToe_1.Controllers
         [Route("api/games/")]
         public IHttpActionResult UpdateUser([FromBody]GamesInputParams gamesInputParams)
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var gameId = _gamesBL.UpsertUser(gamesInputParams.UserId);
             if (gameId != null && gameId > 0)
             {
@@ -53,6 +62,16 @@ namespace TicTacToe_1.Controllers
         [Route("api/games/{gameId}/winner")]
         public IHttpActionResult UpdateWinner(int gameId, [FromBody]GamesInputParams gamesInputParams)
         {
+            // Validation starts here
+            if (gameId <= 0)
+            {
+                return BadRequest("GameId must be greater then 0.");
+            }
+            else if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            // Validation ends here
             var isSuccess = _gamesBL.UpdateWinner(gameId, gamesInputParams.UserId);
             if (isSuccess)
             {
@@ -72,6 +91,10 @@ namespace TicTacToe_1.Controllers
         [Route("api/games/{gameId}/moves")]
         public IHttpActionResult GetMovesInfo(int gameId)
         {
+            if(gameId <= 0)
+            {
+                return BadRequest("GameId must be greater then 0.");
+            }
             var gamesInfo = _movesBL.GetMovesInfo(gameId);
             return Ok(gamesInfo);
         }
@@ -85,6 +108,16 @@ namespace TicTacToe_1.Controllers
         [Route("api/games/{gameId}/moves")]
         public IHttpActionResult InsertMove(int gameId, [FromBody]MovesInfo movesInfo)
         {
+            // Validation starts here
+            movesInfo.GameId = gameId;
+            var validator = new MovesInfoValidator();
+            var results = validator.Validate(movesInfo);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            // Validation ends here
+
             _movesBL.InsertMovesInfo(gameId, movesInfo);
             return Ok("Success");
         }

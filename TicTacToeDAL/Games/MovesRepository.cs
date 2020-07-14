@@ -1,12 +1,9 @@
 ﻿using Dapper;
-using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SQLite;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TicTacToeEntity.Games;
 using TicTacToeInterfaces.Games;
 
@@ -16,6 +13,11 @@ namespace TicTacToeDAL.Games
     {
         private readonly string _connString = ConfigurationManager.ConnectionStrings["DatabaseConnection"].ConnectionString;
 
+        /// <summary>
+        /// Fteches all the moves of perticular game
+        /// </summary>
+        /// <param name="gameId">Unique id of game</param>
+        /// <returns>List of moves plyed in that game</returns>
         public List<MovesInfo> GetMovesInfo(int gameId)
         {
             string query = $@"select *
@@ -28,6 +30,10 @@ namespace TicTacToeDAL.Games
             }
         }
 
+        /// <summary>
+        /// Insert moves info into Moves table of DB.
+        /// </summary>
+        /// <param name="movesInfo">Move related info like rolNumber, colNumber, etc</param>
         public void InsertMovesInfo(MovesInfo movesInfo)
         {
             string query = $@"insert into Moves (GameId, UserId, RowNumber, ColNumber, CreationTime)

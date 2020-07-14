@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TicTacToeEntity.Games
+﻿namespace TicTacToeEntity.Games
 {
     public class MovesInfo
     {
@@ -12,6 +6,6 @@ namespace TicTacToeEntity.Games
         public int UserId { get; set; }
         public int RowNumber { get; set; }
         public int ColNumber { get; set; }
-        public String CreationTime { get; set; }
+        public string CreationTime { get; set; }
     }
 }

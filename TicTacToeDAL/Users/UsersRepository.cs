@@ -14,6 +14,11 @@ namespace TicTacToeDAL.Users
     {
         private readonly string _connString = ConfigurationManager.ConnectionStrings["DatabaseConnection"].ConnectionString;
 
+        /// <summary>
+        /// Fetches user info from userId
+        /// </summary>
+        /// <param name="userId">Unique Id of user</param>
+        /// <returns>UserInfo like userId, emailId</returns>
         public UsersInfo GetUsersInfo(int userId)
         {
             string query = $@"select *
@@ -26,6 +31,11 @@ namespace TicTacToeDAL.Users
             }
         }
 
+        /// <summary>
+        /// Fetches userInfo based on emailId
+        /// </summary>
+        /// <param name="emailId">Email Id of user</param>
+        /// <returns>UserInfo like userId, emailId</returns>
         public UsersInfo GetUsersInfoFromEmailId(string emailId)
         {
             string query = $@"select *
@@ -38,6 +48,11 @@ namespace TicTacToeDAL.Users
             }
         }
 
+        /// <summary>
+        /// Insert user into Users table of DB
+        /// </summary>
+        /// <param name="usersInputParams">It contains emailId of users</param>
+        /// <returns>UserId:- Unique id of user</returns>
         public int? InsertUsersInfo(UsersInputParams usersInputParams)
         {
             int? lastInsertedId = -1;

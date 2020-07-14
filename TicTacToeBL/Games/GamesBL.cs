@@ -12,12 +12,22 @@ namespace TicTacToeBL.Games
         private readonly IGameRepository _gamesRepository = new GameRepository();
         private readonly IUsersRepository _usersRepository = new UsersRepository();
 
+        /// <summary>
+        /// It will fetch games info based on gameId.
+        /// </summary>
+        /// <param name="gameId">UniqueId of game</param>
+        /// <returns>Details inforamation about game</returns>
         public GamesDetailInfo GetGamesInfo(int gameId)
         {
             GamesInfo gamesInfo = _gamesRepository.GetGamesInfo(gameId);
             return GetGamesDetailInfo(gamesInfo);
         }
 
+        /// <summary>
+        /// It will insert new game if no game is available or updapte user in game
+        /// </summary>
+        /// <param name="userId">Uniqie id of user</param>
+        /// <returns>GameId: Usinque id of game</returns>
         public int? UpsertUser(int userId)
         {
             int? gameId = -1;
@@ -43,6 +53,12 @@ namespace TicTacToeBL.Games
             return gameId;
         }
 
+        /// <summary>
+        /// It will update the winner for perticular game
+        /// </summary>
+        /// <param name="gameId">Unique id of game</param>
+        /// <param name="userId">Unique id of user</param>
+        /// <returns>Boolean indicating success/failure</returns>
         public bool UpdateWinner(int gameId, int userId)
         {
             GamesInfo gamesInfo = new GamesInfo

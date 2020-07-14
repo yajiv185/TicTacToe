@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace TicTacToeEntity.Users
+﻿namespace TicTacToeEntity.Users
 {
     public class UsersInfo
     {
         public int UserId { get; set; }
-        public String EmailId { get; set; }
+        public string EmailId { get; set; }
     }
 }

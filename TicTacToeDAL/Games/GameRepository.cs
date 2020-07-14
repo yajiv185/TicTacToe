@@ -1,12 +1,8 @@
 ﻿using Dapper;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SQLite;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TicTacToeEntity.Games;
 using TicTacToeInterfaces.Games;
 
@@ -16,6 +12,10 @@ namespace TicTacToeDAL.Games
     {
         private readonly string _connString = ConfigurationManager.ConnectionStrings["DatabaseConnection"].ConnectionString;
 
+        /// <summary>
+        /// It will check the avaibility of game i.e is there any game which have only one player in it(waiting for other player to join)
+        /// </summary>
+        /// <returns>Info about the game like gameId, user1Id</returns>
         public GamesInfo GetAvailableGame()
         {
             string query = $@"select *
@@ -27,6 +27,11 @@ namespace TicTacToeDAL.Games
             }
         }
 
+        /// <summary>
+        /// Fetches the game info based on game Id
+        /// </summary>
+        /// <param name="gameId">Unique id of game</param>
+        /// <returns>Info about the game like gameId, user1Id</returns>
         public GamesInfo GetGamesInfo(int gameId)
         {
             string query = $@"select *
@@ -39,6 +44,11 @@ namespace TicTacToeDAL.Games
             }
         }
 
+        /// <summary>
+        /// It will insert record in Games table
+        /// </summary>
+        /// <param name="gamesInfo">Params realted to games like userId, numberOf rows</param>
+        /// <returns>GameId:- unique id of game</returns>
         public int? InsertGameInfo(GamesInfo gamesInfo)
         {
             int? lastInsertedId = -1;
@@ -53,6 +63,12 @@ namespace TicTacToeDAL.Games
             return lastInsertedId;
         }
 
+        /// <summary>
+        /// Updates the record indb for perticualr game Id
+        /// </summary>
+        /// <param name="gameId">Unique id of game</param>
+        /// <param name="gamesInfo">Params realted to games like userId, numberOf rows</param>
+        /// <returns>Boolen indicating success/failure</returns>
         public bool UpdateGameInfo(int gameId, GamesInfo gamesInfo)
         {
             bool isSuccessfullyUpdated = false;
